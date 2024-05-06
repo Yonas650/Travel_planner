@@ -5,7 +5,7 @@ import markdown
 import os
 
 app = Flask(__name__)
-app.secret_key = 'nothing'
+app.secret_key = 'nothin'
 
 # Set your OpenAI API key (replace with your actual API key)
 openai.api_key = os.getenv('OPENAI_API_KEY')
