@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Travel Planner - Login/Register</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .full-width {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="w3-light-grey">
+
+    <!-- Navigation Bar -->
+    <div class="w3-bar w3-white w3-border-bottom w3-xlarge">
+        <a href="/" class="w3-bar-item w3-button w3-text-red"><b><i class="fa fa-globe w3-margin-right"></i>NYUAD GO</b></a>
+    </div>
+
+    <!-- Header with background image -->
+    <header class="w3-display-container">
+        <img class="full-width" src="/static/abudhabi.jpeg" alt="Abu Dhabi Skyline">
+        <div class="w3-display-middle w3-margin-top w3-center">
+            <h1 class="w3-xxxlarge w3-text-white"><span class="w3-padding w3-black w3-opacity-min"><b>EXPLORE</b></span> <span class="w3-hide-small w3-text-light-grey">Your Next Adventure</span></h1>
+        </div>
+    </header>
+
+    <div class="w3-container w3-padding-32 w3-card-4 w3-white w3-margin">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="w3-panel w3-{{ 'green' if category == 'success' else 'red' }} w3-display-container">
+                    <span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+                    <p>{{ message }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% if not session.username %}
+            <h2 class="w3-center">Log In or Register</h2>
+            <form action="{{ url_for('login') }}" method="post" class="w3-margin-top">
+                <h3>Login</h3>
+                <p><input class="w3-input w3-border" type="text" placeholder="Username" name="username" required></p>
+                <p><input class="w3-input w3-border" type="password" placeholder="Password" name="password" required></p>
+                <button class="w3-button w3-green w3-section" type="submit">Login</button>
+            </form>
+            <form action="{{ url_for('register') }}" method="post" class="w3-margin-top">
+                <h3>Register</h3>
+                <p><input class="w3-input w3-border" type="text" placeholder="Username" name="username" required></p>
+                <p><input class="w3-input w3-border" type="email" placeholder="Email" name="email" required></p>
+                <p><input class="w3-input w3-border" type="password" placeholder="Password" name="password" required></p>
+                <button class="w3-button w3-red w3-section" type="submit">Register</button>
+            </form>
+        {% else %}
+            <h2>Travel Preferences</h2>
+            <form action="{{ url_for('preferences') }}" method="post" class="w3-row-padding" style="margin-top: 20px;">
+                <div class="w3-half">
+                    <label>Destination</label>
+                    <input class="w3-input w3-border" name="destination" type="text" placeholder="Enter destination" required>
+                </div>
+                <div class="w3-half">
+                    <label>Budget ($)</label>
+                    <input class="w3-input w3-border" name="budget" type="number" placeholder="Enter your budget" required>
+                </div>
+                <div class="w3-half">
+                    <label>Check-In Date</label>
+                    <input class="w3-input w3-border" name="check_in" type="date" required>
+                </div>
+                <div class="w3-half">
+                    <label>Check-Out Date</label>
+                    <input class="w3-input w3-border" name="check_out" type="date" required>
+                </div>
+                <p class="w3-center">
+                    <button class="w3-button w3-red w3-section" type="submit">Submit Preferences</button>
+                </p>
+            </form>
+
+            {% if itinerary %}
+                <h2>Your Itinerary</h2>
+                <div class="w3-container w3-card-4 w3-padding-16 w3-white">
+                    {{ itinerary | safe }}
+                </div>
+            {% endif %}
+        {% endif %}
+        <h2>Contact Us</h2>
+    <form action="{{ url_for('contact') }}" method="post" class="w3-margin-top">
+        <p><input class="w3-input w3-border" type="text" placeholder="Your Name" name="name" required></p>
+        <p><input class="w3-input w3-border" type="email" placeholder="Your Email" name="email" required></p>
+        <p><textarea class="w3-input w3-border" placeholder="Your Message" name="message" required></textarea></p>
+        <button class="w3-button w3-blue w3-section" type="submit">Send Message</button>
+    </form>
+    </div>
+</body>
+</html>
