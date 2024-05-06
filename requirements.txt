@@ -1,3 +1,4 @@
 flask==2.0.2
+werkzeug==2.0.3
 openai==0.27.0
 markdown==3.4.4
